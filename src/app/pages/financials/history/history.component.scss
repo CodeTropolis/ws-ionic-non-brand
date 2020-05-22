@@ -1,0 +1,39 @@
+ion-toolbar {
+  padding: 12px;
+  ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 90px 1px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  #selectYear,
+  #startingBalance2018 {margin: 0 20px;}
+}
+
+#startingBalance2018 { color: var(--ws-blue);}
+
+.paid {color: green;}
+.unpaid {color: red;}
+
+.tuition-assistance {
+  display: flex;
+  .no-assistance {color:gray;}
+}
+
+.web-table {
+  mat-card {margin-top: 10px;}
+}
+
+mat-select {
+  background-color: aliceblue;
+  border: 1px solid var(--ws-blue);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+// ::ng-deep .mat-form-field-underline {
+//   display: none;
+// }

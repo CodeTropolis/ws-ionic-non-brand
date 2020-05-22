@@ -1,0 +1,39 @@
+
+// desktop class makes element a block.
+ion-toolbar {
+    // ion-title {margin-top: 25px;}
+    mat-select {
+        background-color: aliceblue;
+        border: 1px solid var(--ws-blue);
+        border-radius: 5px;
+        padding: 5px;
+        margin-left: 20px;
+        width: 150px;
+        // Only works in global.scss for some reason.
+        // &.student-select {
+        //     .mat-select-placeholder { 
+        //         color:var(--ws-buttonblue) !important;
+        //     }
+        // }
+    }
+}
+
+img.financials {margin: 10px 0 10px 10px;}
+
+.sidebar {
+    ion-button {
+        display: block;
+    }
+}
+
+mat-checkbox {
+    &.tuitionAssistance {margin-right: 20px}
+}
+
+
+@media screen and (max-width: 768px) {
+   ion-button {width: 100%;}
+   ion-toolbar {
+      ion-title {margin-top: 0;}
+    }
+  }

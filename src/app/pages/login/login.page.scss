@@ -1,0 +1,78 @@
+
+a {color: var(--ws-blue);}
+
+ion-button {
+    display: block;
+    margin: 20px 10px;
+}
+
+.links {
+    display: block;
+    text-align: center;
+    a {
+        &.create-account {
+            display: block;
+            margin-top: 2em;
+        }
+        &.reset-password {
+            font-size: 0.75em;
+        }
+    }
+}
+
+.instructions {
+    padding: 1em;
+    text-align: center;
+}
+
+form {width: 90%;}
+
+form, mat-spinner  {margin: 0 auto;}
+
+mat-card {margin: 50px 5px;}
+
+mat-form-field {display: block;}
+
+.legal {
+    color: var(--ws-light-grey);
+    text-align: center;
+    font-size: 0.75em;
+}
+
+.links {
+    a:first-child { 
+        display: block;
+        margin-top: 10px;
+    }
+}
+
+.login-icon {
+    font-size: 170px;
+    color: var(--ws-light-grey);
+    margin: 0 auto;
+    width: 170px;
+    display: block;
+    padding-bottom: 0;
+}
+
+// .button-group {
+//     text-align: center;
+//     button {
+//         display: inline;
+//         margin: 0 0 2em 0;
+//         &[type="submit"] {margin-right: 1.5em;}
+//     }
+// }
+
+p.brand {
+    color: var(--ws-blue);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.account-response {
+    margin-bottom: 0.5em;
+    text-align: center;
+}

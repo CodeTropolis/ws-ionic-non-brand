@@ -1,0 +1,112 @@
+<ion-header>
+    <!-- use mode="ios" which will make the toolbar title to be on center for both android and ios devices. -->
+    <!-- https://stackoverflow.com/a/54605847 -->
+  <ion-toolbar *ngIf="currentStudent" mode="ios">
+    
+    <ion-buttons>
+      <!-- Back button issues: https://github.com/ionic-team/ionic/issues/15316#issuecomment-444964936 
+      or https://forum.ionicframework.com/t/ionic-4-back-button-angular/137866/18-->
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <!-- <img class="desktop financials" src="assets/headerLogo.png"> -->
+    </ion-buttons>
+    <ion-title class="_desktop">
+        Financials for {{currentStudent.fname}} {{currentStudent.lname}}
+      <mat-select class="student-select" *ngIf="studentsOfRecord$ | async; let students" placeholder="Select Student" (selectionChange)="selectStudent($event.value)">
+        <mat-option *ngFor="let student of students" [value]="student">
+            {{ student.fname }} {{ student.lname }}
+        </mat-option>
+      </mat-select>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="presentFamilyInfoModal()">Family Contact Info</button>
+        <button *ngIf='user && user.roles.admin' mat-menu-item (click)="presentRecordFormModal(true)">Update Family Record</button>
+      </mat-menu>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+       <!-- 
+            xs < 540px
+            sm > 576px
+            md > 768px
+            lg > 992px
+            xl > 1200px
+            size="auto" = size the column width based on width of content
+           -->
+
+<ion-content class="ion-padding">
+    <ion-grid>
+        <ion-row>
+          <ion-col class="sidebar" size="20" size-lg="3">  
+            <h5>Payments and Forms</h5>
+            <ion-button color='wsblue' class="make-payment" (click)="goToURL('https://google.com')">FACTS Tuition</ion-button>
+            <ion-button color='wsblue' class="make-payment" (click)="goToURL('https://google.com')">Make Payments</ion-button>
+            <ion-button color='wsblue' *ngIf="currentCategoryObj && currentCategoryObj.key != 'lunch'" (click)="presentTaxFormModal()">Tax Form</ion-button>
+          </ion-col>
+          
+          <ion-col size="20" size-lg="17">
+            <h5>Financial Categories</h5>
+            <ion-button *ngFor="let cat of categories" (click)="setCategoryAndGetCategoryBalance(cat)">{{cat.value}}</ion-button>
+            <ng-container *ngIf="currentCategoryObj">
+              <!-- Must use this directive for running balance of zero to show. -->
+              <h5 *ngFor="let balance of [balance$ | async]"> 
+                Balance for {{currentCategoryObj.value}}: {{balance | currency}}.
+              </h5>
+            
+              <ng-container *ngIf='user.roles.admin'>
+                <hr>
+                <h5>Enter a Transaction for {{currentCategoryObj.value | uppercase}}</h5>
+                <ion-button mat-flat-button (click)="enterPayment()">Payment</ion-button>
+                <ion-button mat-flat-button (click)="enterCharge()">Charge</ion-button>
+                <ion-button mat-flat-button (click)="enterFee()">Fee</ion-button>
+              </ng-container>
+              <form *ngIf='showForm' [formGroup]='formGroup' #formDirective='ngForm' (ngSubmit)='submitHandler(formDirective)'>
+                <ng-container *ngIf="isEnteringPayment">
+                    <mat-form-field>
+                        <input matInput type=number step=0.01 placeholder="{{currentCategoryObj.value}} Payment" formControlName="amount">
+                    </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="isEnteringCharge">
+                    <mat-form-field>
+                        <input matInput type=number step=0.01 placeholder="{{currentCategoryObj.value}} Charge" formControlName="amount">
+                    </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="isEnteringFee">
+                    <mat-form-field>
+                        <input matInput type=number step=0.01 placeholder="{{currentCategoryObj.value}} Fee" formControlName="amount">
+                    </mat-form-field>
+                </ng-container>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="transactionDatePicker" placeholder="Date" formControlName="date">
+                  <mat-datepicker-toggle matSuffix [for]="transactionDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #transactionDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type=text placeholder="Memo" formControlName="memo">
+                </mat-form-field>
+                <mat-checkbox *ngIf="isEnteringPayment && currentCategoryObj.key !== 'lunch'" formControlName="taxDeductionEligible">Tax deduction eligible?</mat-checkbox> 
+              
+                <div>
+                <ng-container *ngIf="isEnteringCharge && currentCategoryObj.key === 'tuition'" formArrayName="tuitionAssistance">
+                  <mat-checkbox class="tuitionAssistance" (change)="addTuitionAssistanceForm($event)">Tuition assistance?</mat-checkbox> 
+                  <ng-container *ngFor="let ta of tuitionAssistanceForm.controls; let i=index" [formGroupName]="i">
+                    <mat-form-field>
+                      <input type=number matInput placeholder="Enter assistance amount" formControlName="number">
+                    </mat-form-field>
+                  </ng-container>
+                </ng-container>
+                </div>
+
+                <div></div>
+                <ion-button [disabled]="!formGroup.valid || disableSubmitButton" type="submit">Submit</ion-button>
+              </form>
+              </ng-container>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+  <app-history id="history"></app-history>
+</ion-content>
+
+

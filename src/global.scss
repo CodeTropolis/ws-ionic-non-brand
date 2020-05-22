@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+@import '~@ionic/angular/css/core.css';
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
+@import '~@ionic/angular/css/display.css';
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+
+:root { 
+    --ws-darkcyan:          darkcyan;
+    --ws-blue:              #45b6e9;
+    --ws-buttonblue:         #3780FF;
+    --ws-hintblue:          #aee5ff;
+    --ws-green:             #92ff05;
+    --ws-financial-green:   #2fd08d;
+    --ws-light-grey:        #e4e7e9;
+    --ws-smoke:             whitesmoke;
+    --ws-error:             #e27562;
+
+    --ion-color-wsblue:     var(--ws-blue);
+    --ion-color-wsblue-rgb: 69,182,233;
+    --ion-color-wsblue-contrast: #ffffff;
+    --ion-color-wsblue-contrast-rgb: 0,0,0;
+    --ion-color-wsblue-shade: #3da0cd;
+    --ion-color-wsblue-tint: #58bdeb;
+
+    --ion-grid-columns: 20;
+}
+
+.ion-color-wsblue{
+    --ion-color-base: var(--ion-color-wsblue) !important;
+    --ion-color-base-rgb: var(--ion-color-wsblue-rgb) !important;
+    --ion-color-contrast: var(--ion-color-wsblue-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-wsblue-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-wsblue-shade) !important;
+    --ion-color-tint: var(--ion-color-wsblue-tint) !important;
+}
+
+app-login {margin: auto !important;}
+
+ion-icon {
+    &.custom {margin-right: 5px;}
+}
+
+a {text-decoration: none;}
+
+app-history {
+    display: block;
+    margin-top: 30px;
+}
+
+app-login {
+    display: block;
+    margin: 7em auto;
+    max-width: 500px;
+}
+
+
+body { background: var(--ws-smoke);}
+
+ion-button { text-transform: none;}
+
+ion-content { --background: var(--ws-smoke);}
+
+/* Chrome - change the pale yellow autocomplete to any color */
+/* https://stackoverflow.com/a/14205976 */
+input:-webkit-autofill {
+    box-shadow: 0 0 0 30px white inset;
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+form {
+    mat-form-field { 
+        margin-right: 20px;
+    }
+}
+
+ion-searchbar {
+    .searchbar-input.sc-ion-searchbar-md {
+        border-radius: 20px !important;
+    }
+}
+
+.mat-progress-spinner circle, 
+.mat-spinner circle {
+    stroke: var(--ws-blue);
+}
+
+.record-form-modal {
+    .modal-wrapper {
+        width: 900px;
+    }
+}
+
+// .tax-form-modal {
+//     .modal-wrapper {
+//         // height: 330px;
+//     }
+// }
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {    
+    .logo {
+        // background: url('/assets/taxFormBG.png') center center no-repeat;
+        width: 308px;
+        height: 308px;
+        position: absolute;
+        top: 5%;
+        opacity: .10;
+    }
+}
+// Not sure why this won't work within financial.page.scss
+mat-select {
+    &.student-select {
+        .mat-select-placeholder { 
+            color:var(--ws-buttonblue);
+        }
+    }
+}
+
+ion-title {font-weight: 400;}
+
+// mat-select {
+//     &.select-year {
+//         .mat-select-placeholder { 
+//             color:var(--ws-buttonblue);
+//         }
+//     }
+// }
+
+
+
+
+// xs < 540px
+// sm > 576px
+// md > 768px
+// lg > 992px
+// xl > 1200px
+// size="auto" = size the column width based on width of content
+
+
+@media screen and (max-width: 768px) {
+   .desktop { display: none;}
+   .mobile {display: block;}
+  }
+
+@media screen and (min-width: 768px) {
+    .desktop { display: block;}
+    .mobile {display: none;}
+}
+
+
+@media print {
+
+    @page {
+        size: A4 portrait; 
+        margin: 0;
+    }
+  
+    body * {
+        visibility: hidden;  
+    }
+
+    #print-content * {
+        visibility: visible;
+        // font-size: 1.25em;
+    }
+
+    #print-content {
+        h5, p, span, li {font-size: 1.5em ;}
+    } 
+    // This works for all text on print preview versus the above.
+  
+  }
+
+// .wrapper {
+//     margin: 0 auto;
+//     width: 1200px;
+// }
+

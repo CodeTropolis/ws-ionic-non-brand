@@ -1,0 +1,17 @@
+
+form {
+    padding: 20px;
+    .inset {
+        border-radius: 15px;
+        border: 1px solid var(--ws-hintblue);
+        margin-bottom: 1em;
+        display: block;
+        padding: 1em;
+    }
+    
+    .remove-child {
+        float:right;
+    }
+
+}
+

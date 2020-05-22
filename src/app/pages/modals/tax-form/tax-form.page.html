@@ -1,0 +1,23 @@
+<ion-content padding class="modal ion-padding">
+    <div id="print-content">
+        <p>TAX CREDIT for <strong>{{currentStudent.fname}} {{currentStudent.lname}}</strong></p>
+       <div class="center"><div class="logo"></div></div> 
+       <p>Company Name<br>
+        Address <br>
+        City, State zip <br>
+        Office: 123-555-6677 <br>
+     </p>
+        <p>{{currentCategory}} Payments for Tax Year Jan. 1, {{taxYear}} - Dec. 31, {{taxYear}}:
+            <strong><span *ngIf="totalPaymentAmount == null; else pymtTotal">No payments have been made towards {{currentCategory}}</span>
+            <ng-template #pymtTotal> {{totalPaymentAmount | currency}}</ng-template></strong>
+        </p>
+      </div>
+
+      <div class="center">
+        <ion-button (click)="dismiss();">Close</ion-button>
+        <ion-button (click)="print();">Print</ion-button>
+      </div>
+
+      <hr>
+
+</ion-content>

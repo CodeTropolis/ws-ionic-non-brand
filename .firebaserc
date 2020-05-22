@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "ws-cf-poc-local",
+    "ws-ionic-d": "ws-ionic-d",
+    "StackBlitz": "stackblitz-825da",
+    "ws-demo": "ws-demo-c92de"
+  }
+}

@@ -1,0 +1,16 @@
+// Ionic has a grid system like bootstrap - you can use <ion-row> and <ion-col> respectively to help align your content.
+// https://forum.ionicframework.com/t/help-with-flexbox-not-able-to-create-a-proper-grid/56759/2
+
+ion-toolbar {
+    ion-row { padding-right: 20px;}
+    img.student-search {margin: 10px 0 10px 10px;}
+}
+
+.search {
+    display: flex;
+    ion-searchbar {width: 50%;}
+    ion-button {margin: 10px 0 0 10px}
+}
+
+mat-table {margin-top: 2em;}
+ 

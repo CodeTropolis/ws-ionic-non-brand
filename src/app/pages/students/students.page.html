@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <!-- <img class="student-search" src="assets/headerLogo.png"> -->
+      <ion-title>Student Search</ion-title>
+      <a [routerLink]="" (click)="logOut()">Log Out</a>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+<ng-container *ngIf='user && user.roles.admin'>
+    <div class="search">
+        <ion-searchbar debounce = '5000' #searchInput (keyup)="search(searchInput.value)" placeholder="Search by Smith, Kal, or 5"></ion-searchbar>
+        <ion-button (click)="presentRecordFormModal(false)"><i class="material-icons">add_circle</i>Family Record</ion-button>
+    </div>
+</ng-container>
+
+  <ng-container *ngIf = 'dataSource'>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="fname">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+          <mat-cell *matCellDef="let row"> 
+            <span *ngIf="!isEditing[row.id]">{{row.fname}}</span>
+            <form *ngIf="isEditing[row.id]" [formGroup]="formGroup[row.id]" #formDirective="ngForm">
+              <mat-form-field>
+                <input matInput type=text formControlName="fname">
+              </mat-form-field>
+            </form>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lname">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+          <mat-cell *matCellDef="let row"> 
+              <span *ngIf="!isEditing[row.id]">{{row.lname}}</span>
+              <form *ngIf="isEditing[row.id]" [formGroup]="formGroup[row.id]" #formDirective="ngForm">
+                  <mat-form-field>
+                    <input matInput type=text formControlName="lname">
+                  </mat-form-field>
+                </form>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="grade">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Grade </mat-header-cell>
+          <mat-cell *matCellDef="let row"> 
+            <span *ngIf="!isEditing[row.id]">{{row.grade}}</span>
+            <form *ngIf="isEditing[row.id]" [formGroup]="formGroup[row.id]" #formDirective="ngForm">
+              <mat-form-field>
+                <input matInput type=text formControlName="grade">
+              </mat-form-field>
+            </form>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            
+            <span *ngIf="!isEditing[row.id]">
+              <span *ngIf="row.active; else no">Yes</span>
+              <ng-template #no>No</ng-template>
+            </span>
+            <form *ngIf="isEditing[row.id]" [formGroup]="formGroup[row.id]" #formDirective="ngForm">
+              <mat-checkbox formControlName="active" [checked]="row.active">Active</mat-checkbox> 
+            </form>
+       
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell class="actions" *matCellDef="let row">
+            <button *ngIf="!isEditing[row.id]; else save" mat-icon-button [matMenuTriggerFor]="menu" (click)="setStudent(row)">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <ng-template #save>
+                <ion-button (click)="saveStudent(row)">Save</ion-button>
+                <ion-button (click)="cancelEdit(row)">Cancel</ion-button>
+            </ng-template>
+            <mat-menu #menu="matMenu">
+              <button *ngIf='user.roles.admin' [disabled]="isUpdating" mat-menu-item (click)="editStudent(row)"><i class="material-icons">edit</i> Edit Student</button>
+              <button [disabled]="isUpdating" mat-menu-item (click)="presentFamilyInfoModal()">Family Contact Info</button>
+              <button *ngIf='user.roles.admin' mat-menu-item (click)="presentRecordFormModal(true)">Update Family Record</button>
+              <button mat-menu-item (click)="goTo('../financials')">Financials</button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+  </ng-container>
+  
+  <!-- <p *ngIf="!user.roles.admin && !dataSource">
+    No records available for {{searchTextValue}}. Please check spelling (names are case-sensitive) or create a family record.
+  </p> -->
+  <p *ngIf=" (user && user.roles.admin) && searchedWithoutResults && searchTextValue ">
+    No records available for at this time.  Please check spelling.
+  </p>
+  <p *ngIf="(user && !user.roles.admin) && !dataSource">
+    No records available for <i>{{user.email}}</i> at this time.
+  </p>
+
+</ion-content>
+

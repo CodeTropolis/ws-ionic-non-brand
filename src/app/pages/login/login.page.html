@@ -1,0 +1,74 @@
+<ion-content>
+  
+  <mat-card>
+    <p class="brand">WhiteStone</p>
+   
+    <mat-spinner *ngIf="isLoggingIn$ | async; else logo" strokeWidth="9" [diameter]="170"></mat-spinner>
+   
+    <ng-template #logo>
+      <i class="material-icons login-icon">supervised_user_circle</i>
+    </ng-template>
+    <div class="instructions">
+        <p *ngIf="creatingAccount">Please create an account using the email address associated with your student and a password of your choosing.</p>
+        <p *ngIf="isResettingPassword$ | async">To reset your password, please enter the email address associated with your student.</p>
+        <div class="account-response">
+          <p *ngIf="status$ | async as status">{{status}}</p>
+          <mat-error *ngIf="error$ | async as error">{{error}}</mat-error>
+        </div>
+    </div>
+    <ng-container *ngIf="isResettingPassword$ | async; else fullForm">
+      <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="passwordReset(formDirective)">
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
+            <div *ngIf="f.email.errors.required">
+              A valid email address is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <div class="center">
+          <ion-button type="submit" class="login" mat-flat-button color="primary">Submit</ion-button>
+          <ion-button type="button" mat-flat-button color="primary" (click)="cancelPasswordReset(formDirective)">Cancel</ion-button>
+        </div>
+      </form>
+    </ng-container>
+    <ng-template #fullForm>
+      <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="creatingAccount ? signUp() : emailLogin(formDirective)">
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" autocomplete="username">
+          <mat-error *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
+            <div *ngIf="f.email.errors.required">
+              A valid email address is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password"  autocomplete="current-password">
+          <mat-error *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)">
+            <div *ngIf="f.password.errors.required">
+              A password is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+       
+          <ng-container *ngIf="creatingAccount; else login">
+            <div class="center">
+              <ion-button type="submit" mat-flat-button color="primary">Create Account</ion-button>
+              <ion-button (click)='cancelCreateAccount(formDirective)' mat-flat-button color="primary">Cancel</ion-button>
+            </div>
+          </ng-container>
+          
+          <ng-template #login> 
+            <div class="center links">
+            <ion-button *ngIf="!resettingPassword" type="submit" class="login" [disabled]="!form.valid" mat-flat-button color="primary">Login</ion-button>
+            <ng-container *ngIf="!creatingAccount">
+                <a class = "reset-password" (click)="beginPasswordReset(formDirective)">Forgot password?</a>
+                <a class = "create-account" (click)="createAccount(formDirective)">Or Create Account</a>
+            </ng-container>
+            </div>
+          </ng-template>
+      </form>
+    </ng-template>
+    <p class="legal">&copy; 2019 ProDev, LLC</p>
+  </mat-card>
+</ion-content>

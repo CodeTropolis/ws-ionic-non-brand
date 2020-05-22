@@ -1,0 +1,26 @@
+<ion-content class="modal ion-padding">
+    <div id="print-content">
+      <h5>Outstanding {{currentCategory}} Charges Report for {{currentStudent.fname}} {{currentStudent.lname}}</h5>
+       <div class="center"><div class="logo"></div></div> 
+        <p>Company Name<br>
+          Address <br>
+          City, State zip <br>
+          Office: 618-555-6677 <br><br>
+       </p>
+
+      <ul>
+        <li *ngFor="let charge of unPaidCharges">{{charge.date | date}}  {{charge.amount | currency}} Memo: {{charge.memo}}</li>
+      </ul>
+
+       <h5 *ngIf="totalChargesDue == null || totalChargesDue === 0; else charges">No charges due for {{currentCategory}}</h5>
+       <!-- ng-template not showing on print preview. -->
+        <ng-template #charges> Total amount of unpaid charges: {{totalChargesDue | currency}}</ng-template>
+        <span *ngIf="totalChargesDue !== 0"> Total amount of unpaid charges: {{totalChargesDue | currency}}</span>
+      </div>
+
+      <div class="center buttons">
+        <ion-button (click)="dismiss();">Close</ion-button>
+        <ion-button (click)="print();">Print</ion-button>
+      </div>
+</ion-content>
+

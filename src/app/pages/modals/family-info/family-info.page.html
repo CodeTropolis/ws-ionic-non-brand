@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Contact Info</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <mat-card  *ngIf='record'>
+    <mat-card-header>
+      <mat-card-subtitle>{{record.address}} {{record.city}}, {{
+        record.state}} {{record.zip}}</mat-card-subtitle>
+      <mat-card-subtitle>School District: {{record.district}}</mat-card-subtitle>
+      <mat-card-subtitle>Is Catholic: {{record.catholic}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>Father/Guardian: {{record.fatherFname}}{{record.fatherLname}}</mat-card-title>
+      <mat-card-subtitle>{{record.fatherEmail}}</mat-card-subtitle>
+      <mat-card-subtitle *ngFor="let fPhone of record.fatherPhones | mapToIterable">{{fPhone['val'].number}} | {{fPhone['val'].type}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>Mother/Guardian: {{record.motherFname}}
+        {{record.motherLname}}</mat-card-title>
+      <mat-card-subtitle>{{record.motherEmail}}</mat-card-subtitle>
+      <mat-card-subtitle *ngFor="let mPhone of record.motherPhones | mapToIterable">{{mPhone['val'].number}} | {{mPhone['val'].type}}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</ion-content>

@@ -1,0 +1,8 @@
+{
+  "name": "ws-ionic",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

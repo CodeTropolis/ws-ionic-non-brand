@@ -1,0 +1,7 @@
+{
+  "appId": "com.codetropolis.whitestone",
+  "appName": "whitestone",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

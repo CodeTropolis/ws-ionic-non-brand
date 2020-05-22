@@ -1,0 +1,224 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Record Form</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="padding modal">
+  <form [formGroup]="recordForm" #formDirective="ngForm" (ngSubmit)="submitHandler(formDirective)">
+    <section class="inset">
+      <p>Student(s) primary residency</p>
+    <mat-form-field class="street">
+      <input matInput placeholder="Street Address" formControlName="address">
+      <mat-error *ngIf="f.address.invalid && (f.address.dirty || f.address.touched)">
+        <div *ngIf="f.address.errors.required">
+          Street number is required.
+        </div>
+      </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="City" formControlName="city">
+        <mat-error *ngIf="f.city.invalid && (f.city.dirty || f.city.touched)">
+          <div *ngIf="f.city.errors.required">
+            City is required.
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="State" formControlName="state">
+        <mat-error *ngIf="f.state.invalid && (f.state.dirty || f.state.touched)">
+          <div *ngIf="f.state.errors.required">
+            State is required.
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="ZIP Code" formControlName="zip">
+        <mat-error *ngIf="f.zip.invalid && (f.zip.dirty || f.zip.touched)">
+          <div *ngIf="f.zip.errors.required">
+            ZIP Code is required.
+          </div>
+        </mat-error>
+      </mat-form-field>
+    </section>
+    <section class="inset">
+        <p>Father/Guardian</p>
+        <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="fatherFname">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="fatherLname">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="fatherEmail">
+            <mat-error *ngIf="f.fatherEmail.invalid && (f.fatherEmail.dirty || f.fatherEmail.touched)">
+              <div *ngIf="f.fatherEmail.errors.required"> Email address is required.</div>
+              <div *ngIf="f.fatherEmail.errors.email">Email must be a valid email address</div>
+            </mat-error>
+          </mat-form-field>
+          <ng-container formArrayName="fatherPhones">
+            <button type="button" mat-raised-button color="basic" (click)="addPhoneFather()" >
+              <i class="material-icons">add_circle</i> Phone
+            </button>
+            <div *ngFor="let phone of phoneFormFather.controls; let i=index" [formGroupName]="i">
+              <mat-form-field>
+                <input type="tel" matInput placeholder="(area) 555-5555" formControlName="number">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select placeholder="Type" formControlName="type">
+                  <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
+                    {{ type.display }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button type="button" mat-raised-button color="basic" (click)="deletePhoneFather(i)">
+                <i class="material-icons">remove_circle_outline</i> Phone</button>
+            </div>
+          </ng-container>
+      </section>
+      <section class="inset">
+          <p>Mother  / Guardian</p>
+          <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="motherFname">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="motherLname">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="motherEmail">
+            <mat-error *ngIf="f.motherEmail.invalid && (f.motherEmail.dirty || f.motherEmail.touched)">
+              <div *ngIf="f.motherEmail.errors.required"> Email address is required.</div>
+              <div *ngIf="f.motherEmail.errors.email">Email must be a valid email address</div>
+            </mat-error>
+          </mat-form-field>
+          <ng-container formArrayName="motherPhones">
+            <button type="button" mat-raised-button color="basic" (click)="addPhoneMother()">
+              <i class="material-icons">add_circle</i> Phone
+            </button>
+          <div *ngFor="let phone of phoneFormMother.controls; let i=index" [formGroupName]="i">
+            <mat-form-field>
+              <input type="tel" matInput placeholder="(area)555-5555" formControlName="number">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Type" formControlName="type">
+                <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
+                  {{ type.display }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button type="button" mat-raised-button color="basic" (click)="deletePhoneMother(i)">
+              <i class="material-icons">remove_circle_outline</i> Phone</button>
+          </div>
+        </ng-container>
+    </section>
+    <section class="inset">
+        <mat-form-field>
+          <input matInput placeholder="School District" formControlName="district">
+          <mat-error *ngIf="f.district.invalid && (f.district.dirty || f.district.touched)">
+            <div *ngIf="f.district.errors.required"> School District is required.</div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Is Catholic" formControlName="catholic">
+            <mat-option *ngFor="let choice of catholic" [value]="choice.value">
+              {{ choice.display }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.catholic.invalid && (f.catholic.dirty || f.catholic.touched)">
+            <div *ngIf="f.catholic.errors.required">
+              Yes/No Required
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </section>
+      <button type="button" mat-raised-button color="basic" (click)="addChild()">
+        <i class="material-icons">add_circle</i> Child
+      </button>
+
+    <div formArrayName="children">
+  
+      <section class="inset" *ngFor="let child of childrenForm.controls; let i=index" [formGroupName]="i">
+        <button class="remove-child" type="button" mat-raised-button color="warn" (click)="deleteChild(i)">
+          <i class="material-icons">remove_circle_outline</i>
+        </button>
+        <tr>
+          <mat-form-field>
+            <input matInput placeholder="First name" formControlName="fname">
+            <mat-error *ngIf="child.controls.fname.invalid && (child.controls.fname.dirty || child.controls.fname.touched)">
+              <div *ngIf="child.controls.fname.errors.required">
+                First name is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last name" formControlName="lname">
+            <mat-error *ngIf="child.controls.lname.invalid && (child.controls.lname.dirty || child.controls.lname.touched)">
+              <div *ngIf="child.controls.lname.errors.required">
+                Last name is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [matDatepicker]="dobPicker" placeholder="Date of Birth" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+          </mat-form-field>
+        </tr>
+        <mat-form-field>
+          <mat-select placeholder="Gender" formControlName="gender">
+            <mat-option *ngFor="let g of gender" [value]="g.value">
+              {{ g.display }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="child.controls.gender.invalid && (child.controls.gender.dirty || child.controls.gender.touched)">
+            <div *ngIf="child.controls.gender.errors.required">
+              Gender is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Grade" formControlName="grade">
+            <mat-option *ngFor="let g of grade" [value]="g.value">
+              {{ g.display }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="child.controls.grade.invalid && (child.controls.grade.dirty || child.controls.grade.touched)">
+            <div *ngIf="child.controls.grade.errors.required">
+              Grade is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Ethnicity" formControlName="race">
+            <mat-option *ngFor="let race of races" [value]="race.value">
+              {{ race.display }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="child.controls.race.invalid && (child.controls.race.dirty || child.controls.race.touched)">
+            <div *ngIf="child.controls.race.errors.required">
+              Ethnicity is required.
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </section>
+    </div>
+
+    <!-- <div class="button-group">
+        <ion-button *ngIf="!isUpdating" type="submit" [disabled]="!recordForm.valid">Submit</ion-button>
+        <div *ngIf="isUpdating">
+          <button type="submit" mat-raised-button color="primary">Update</button>
+          <button type="button" mat-raised-button color="primary" (click)="dismiss()">Cancel</button>
+        </div>
+      </div> -->
+
+      <div class="center buttons">
+        <ion-button *ngIf="!isUpdating" type="submit" [disabled]="!recordForm.valid">Submit</ion-button>
+        <div *ngIf="isUpdating">
+          <ion-button type="submit" mat-raised-button color="primary">Update</ion-button>
+          <ion-button type="button" mat-raised-button color="primary" (click)="dismiss()">Cancel</ion-button>
+        </div>
+      </div>
+
+  </form>
+ 
+</ion-content>
