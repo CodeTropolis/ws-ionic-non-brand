@@ -3,8 +3,8 @@
 Demo:
 
 Login:
-email: whitestone761@gmail.com
-Pass: password
+- Email: whitestone761@gmail.com
+- Pass: password
 
 After login, you will be taken to the Student Search page. You may then:
 
