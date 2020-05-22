@@ -8,10 +8,10 @@ Pass: password
 
 After login, you will be taken to the Student Search page. You may then:
 
-- Add a family record and/or
+- Add a family record (be sure and add at least one child) and/or
 
 - Search as instructed for an existing record or search by the last name of the 
-  family record you just created (be sure and add a child).
+  family record you just created. 
   
 - In the search results, go to the 'more' menu (3 vertical dots).
 
